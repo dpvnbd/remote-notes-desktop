@@ -61,6 +61,60 @@ namespace RemoteNotes
       return result.User;
     }
 
+    public async Task<Note> CreateNote(string body)
+    {
+      var response = await _baseApiUrl
+    .AppendPathSegment("notes")
+    .WithHeaders(_authHeaders)
+    .PostJsonAsync(new
+    {
+      body
+    });
+
+      SaveAuthHeaders(response.Headers);
+      var result = await response.ReadFromJsonAsync();
+      return result.Note;
+    }
+
+    public async Task<Note> UpdateNote(string id, string body)
+    {
+      var response = await _baseApiUrl
+    .AppendPathSegment("notes")
+    .AppendPathSegment(id)
+    .WithHeaders(_authHeaders)
+    .PutJsonAsync(new
+    {
+      body
+    });
+
+      SaveAuthHeaders(response.Headers);
+      var result = await response.ReadFromJsonAsync();
+      return result.Note;
+    }
+
+    public async Task DeleteNote(string id)
+    {
+      var response = await _baseApiUrl
+    .AppendPathSegment("notes")
+    .AppendPathSegment(id)
+    .WithHeaders(_authHeaders)
+    .DeleteAsync();
+
+      SaveAuthHeaders(response.Headers);
+    }
+
+    public async Task<List<Note>> GetNotes()
+    {
+      var response = await _baseApiUrl
+    .AppendPathSegment("notes")
+    .WithHeaders(_authHeaders)
+    .GetAsync();
+
+      SaveAuthHeaders(response.Headers);
+      var result = await response.ReadFromJsonAsync();
+      return result.Notes;
+    }
+
     private void SaveAuthHeaders(HttpResponseHeaders headers)
     {
       foreach (var key in new[] { "Uid", "Client", "Access-Token", "Expiry" })
@@ -98,6 +152,7 @@ namespace RemoteNotes
     {
       public User User { get; set; }
       public Note Note { get; set; }
+      public List<Note> Notes { get; set; }
     }
   }
 }

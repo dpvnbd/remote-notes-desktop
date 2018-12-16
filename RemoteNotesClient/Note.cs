@@ -6,7 +6,7 @@ namespace RemoteNotes
 {
   public class Note
   {
-    public User User { get; set; }
+    public string Id { get; set; }
     public string Body { get; set; }
     public DateTime CreatedAt { get; set; }
   }

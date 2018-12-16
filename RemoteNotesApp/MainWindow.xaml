@@ -5,29 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RemoteNotesApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="signInButton" Content="Sign In" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Width="120" Height="23" Click="signInButton_Click"/>
-        <PasswordBox x:Name="passwordPasswordBox" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="120" Height="23"/>
-        <TextBox x:Name="emailTextBox" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="signOutButton" Content="Sign Out" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Width="120" Height="23" Click="signOutButton_Click"/>
-        <TextBlock x:Name="statusTextBlock" HorizontalAlignment="Left" Margin="152,10,0,0" TextWrapping="Wrap" Text="Signed out" VerticalAlignment="Top" Width="423"/>
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="149" Margin="10,132,0,0" Stroke="Black" VerticalAlignment="Top" Width="158" RenderTransformOrigin="0.5,0.5">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.379"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-        <Image x:Name="userImage" HorizontalAlignment="Left" Height="134" Margin="20,139,0,0" VerticalAlignment="Top" Width="140"/>
-        <TextBlock x:Name="userEmailTextBlock" HorizontalAlignment="Left" Margin="10,291,0,0" TextWrapping="Wrap" Text="email" VerticalAlignment="Top" Width="159" FontSize="18"/>
-        <TextBlock x:Name="userNameTextBlock" HorizontalAlignment="Left" Margin="10,324,0,0" TextWrapping="Wrap" Text="name" VerticalAlignment="Top" Width="39" FontSize="14"/>
-        <TextBox x:Name="userNameTextBox" HorizontalAlignment="Left" Height="23" Margin="49,323,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="updateUserButton" Content="Update Profile" HorizontalAlignment="Left" Margin="179,323,0,0" VerticalAlignment="Top" Width="90" Click="updateUserButton_Click"/>
-        <Button x:Name="openImageButton" Content="Open Image" HorizontalAlignment="Left" Margin="49,351,0,0" VerticalAlignment="Top" Width="75" Click="openImageButton_Click"/>
+        Title="MainWindow" Height="441" Width="580">
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate x:Key="LoginViewTemplate" DataType="{x:Type local:LoginView}">
+            <local:LoginView />
+        </DataTemplate>
 
+        <DataTemplate x:Key="UpdateProfileView" DataType="{x:Type local:UpdateProfileView}">
+            <local:UpdateProfileView />
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="errorLabel" Content="{Binding Message}" Margin="105,0,0,30"/>
+
+        <Grid Margin="0" Background="#FFFDFFE7" Grid.Row="1">
+            <ContentControl Content="{Binding CurrentView}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+        <Button x:Name="signOutButton" Content="Sign out" HorizontalAlignment="Left" Margin="487,50,0,0" VerticalAlignment="Top" Width="75" Click="signOutButton_Click"/>
+        <Image x:Name="userImage" HorizontalAlignment="Left" Height="65" VerticalAlignment="Top" Width="90" Source="{Binding UserImage}"/>
+        <Button x:Name="updateProfileButton" Content="Update Profile" HorizontalAlignment="Left" Margin="395,50,0,0" VerticalAlignment="Top" Width="87" Click="updateProfileButton_Click"/>
     </Grid>
 </Window>
